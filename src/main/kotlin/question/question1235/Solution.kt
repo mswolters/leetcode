@@ -11,7 +11,7 @@ class Solution {
     }
 
     private fun jobScheduling(jobs: List<Job>): Int {
-        val sortedJobs = jobs.sortedBy { it.startTime }
+        val sortedJobs = jobs.sortedBy { it.endTime }
         val maxProfitUpTo = sortedMapOf<Int, Int>()
 
         for (job in sortedJobs) {
@@ -20,10 +20,6 @@ class Solution {
             val profitAfterThis = maxProfitUpToThis + job.profit
             if (maxProfitUpToEndOfThis < profitAfterThis) {
                 maxProfitUpTo[job.endTime] = profitAfterThis
-                val lowerEntries = maxProfitUpTo.tailMap(job.endTime + 1).filterValues { v -> v <= profitAfterThis }
-                for (entry in lowerEntries) {
-                    maxProfitUpTo.remove(entry.key)
-                }
             }
         }
 
